@@ -1,0 +1,6 @@
+plugin:
+    name: 'lucaspalomba.krakenoptimizer::lang.plugin.name'
+    description: 'lucaspalomba.krakenoptimizer::lang.plugin.description'
+    author: 'lucas palomba'
+    icon: oc-icon-file-image-o
+    homepage: ''

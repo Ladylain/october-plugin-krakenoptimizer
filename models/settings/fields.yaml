@@ -1,0 +1,17 @@
+tabs:
+    fields:
+
+        kraken_help:
+            type   : partial
+            path   : $/lucaspalomba/krakenoptimizer/models/settings/_kraken_help.htm
+            tab    : lucaspalomba.krakenoptimizer::lang.settings.tabs.kraken
+
+        kraken_site_key:
+            label: lucaspalomba.krakenoptimizer::lang.settings.kraken_site_key
+            span : left
+            tab  : lucaspalomba.krakenoptimizer::lang.settings.tabs.kraken
+
+        kraken_secret_key:
+            label: lucaspalomba.krakenoptimizer::lang.settings.kraken_secret_key
+            span : right
+            tab  : lucaspalomba.krakenoptimizer::lang.settings.tabs.kraken
