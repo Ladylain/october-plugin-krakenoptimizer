@@ -32,7 +32,8 @@ class Plugin extends PluginBase
                     
                     $params = array(
                         "url" => $baseUrl.$filePath,
-                        "wait" => true
+                        "wait" => true,
+                        "lossy" => true
                     );
                     $data = $kraken->url($params);
                     $dir = storage_path('app/media');
