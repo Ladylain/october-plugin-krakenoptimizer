@@ -19,34 +19,40 @@ class Plugin extends PluginBase
         ];
     }
     public function boot(){
-        Backend\Widgets\MediaManager::extend(function($widget) {
-            $widget->bindEvent('file.upload', function ($filePath, $uploadedFile) {
-                $array_types = ['image/jpeg','image/gif','image/png','image/webp'];
+        $SiteK = Settings::get('kraken_site_key', false);
+        $SecretK = Settings::get('kraken_secret_key', false);
 
-                if(in_array($uploadedFile->getMimeType(),$array_types)) {
-                    $api_key = Settings::get('kraken_site_key', false);
-                    $secret_key = Settings::get('kraken_secret_key', false);
-                    $baseUrl = url(Config::get('cms.storage.media.path'));
+        if($SiteK && $SecretK){
+            Backend\Widgets\MediaManager::extend(function($widget) {
+                $widget->bindEvent('file.upload', function ($filePath, $uploadedFile) {
+                    $array_types = ['image/jpeg','image/gif','image/png','image/webp'];
                     
-                    $kraken = new Kraken($api_key,$secret_key);
-                    
-                    $params = array(
-                        "url" => $baseUrl.$filePath,
-                        "wait" => true,
-                        "lossy" => true
-                    );
-                    $data = $kraken->url($params);
-                    $dir = storage_path('app/media');
-                    if ($data["success"]) {
-                        is_dir($dir) || @mkdir($dir) || die("Can't Create folder");
-                        copy($data['kraked_url'], $dir. DIRECTORY_SEPARATOR . $data['file_name']);
-                    } else {
-                        Flash::error(e(trans('lucaspalomba.krakenoptimizer::lang.errors.optimization.alert_errors')));
+                    if(in_array($uploadedFile->getMimeType(),$array_types)) {
+                        $api_key = Settings::get('kraken_site_key', false);
+                        $secret_key = Settings::get('kraken_secret_key', false);
+                        $baseUrl = url(Config::get('cms.storage.media.path'));
+                        
+                        $kraken = new Kraken($api_key,$secret_key);
+                        
+                        $params = array(
+                            "url" => $baseUrl.$filePath,
+                            "wait" => true,
+                            "lossy" => true
+                        );
+                        $data = $kraken->url($params);
+                        $dir = storage_path('app/media');
+                        if ($data["success"]) {
+                            is_dir($dir) || @mkdir($dir) || die("Can't Create folder");
+                            copy($data['kraked_url'], $dir. DIRECTORY_SEPARATOR . $data['file_name']);
+                        } else {
+                            Flash::error(e(trans('lucaspalomba.krakenoptimizer::lang.errors.optimization.alert_errors')));
+                        }
                     }
-                }
-            
+                
+                });
             });
-        });
+        }
+        
     }
 
     public function registerComponents()

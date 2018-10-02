@@ -1,11 +1,11 @@
 <?php return [
     'plugin' => [
         'name' => 'KrakenOptimizer',
-        'description' => 'Optimiser et compresser les images via kraken.io API'
+        'description' => 'Optimize and Compress images via kraken.io API'
     ],
     'permissions' => [
         'tab'             => 'Kraken Optimizer',
-        'access_settings' => 'Accès à la configuration',
+        'access_settings' => 'Access plugin configuration',
     ],
     'settings' => [
         'tabs' => [
@@ -16,7 +16,7 @@
     ],
     'errors' => [
         'optimization' => [
-            'alert_errors' => 'Erreur lors de l\'optimization via kraken',
+            'alert_errors' => 'Optimization error from kraken',
         ]
     ]
 ];
