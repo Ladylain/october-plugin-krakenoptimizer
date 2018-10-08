@@ -79,4 +79,14 @@ class Plugin extends PluginBase
             ]
         ];
     }
+
+    public function registerReportWidgets()
+    {
+        return [
+            'LucasPalomba\KrakenOptimizer\ReportWidgets\Kraken' => [
+                'label'   => 'lucaspalomba.krakenoptimizer::lang.widgets.kraken.title',
+                'context' => 'dashboard'
+            ]
+        ];
+    }
 }

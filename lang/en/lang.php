@@ -18,5 +18,11 @@
         'optimization' => [
             'alert_errors' => 'Optimization error from kraken',
         ]
-    ]
+    ],
+    'widgets' => [
+        'kraken' => [
+            'label' => 'Kraken Status',
+            'title' => 'Kraken Status',
+        ]
+    ],
 ];
