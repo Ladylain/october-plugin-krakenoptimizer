@@ -23,6 +23,10 @@
         'kraken' => [
             'label' => 'Kraken Status',
             'title' => 'Kraken Status',
+        ],
+        'labels' => [
+            'available' => 'Disponible',
+            'used' => 'Utilisé',
         ]
     ],
 ];
