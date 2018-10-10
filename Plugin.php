@@ -2,7 +2,7 @@
 
 use System\Classes\PluginBase;
 use System\Classes\SettingsManager;
-use Backend,Config, Flash;
+use Backend,Config, Flash, Request;
 use LucasPalomba\KrakenOptimizer\Classes\Kraken;
 use LucasPalomba\KrakenOptimizer\Models\Settings;
 
@@ -25,6 +25,11 @@ class Plugin extends PluginBase
         if($SiteK && $SecretK){
             Backend\Widgets\MediaManager::extend(function($widget) {
                 $widget->bindEvent('file.upload', function ($filePath, $uploadedFile) {
+                    $path = Request::get('path');
+                    if($path != "/")
+                    {
+                        $path = $path . DIRECTORY_SEPARATOR;
+                    }
                     $array_types = ['image/jpeg','image/gif','image/png','image/webp'];
                     
                     if(in_array($uploadedFile->getMimeType(),$array_types)) {
@@ -43,7 +48,7 @@ class Plugin extends PluginBase
                         $dir = storage_path('app/media');
                         if ($data["success"]) {
                             is_dir($dir) || @mkdir($dir) || die("Can't Create folder");
-                            copy($data['kraked_url'], $dir. DIRECTORY_SEPARATOR . $data['file_name']);
+                            copy($data['kraked_url'], $dir. $path . $data['file_name']);
                         } else {
                             Flash::error(e(trans('lucaspalomba.krakenoptimizer::lang.errors.optimization.alert_errors')));
                         }
