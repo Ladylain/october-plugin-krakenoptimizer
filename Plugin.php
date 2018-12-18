@@ -5,6 +5,7 @@ use System\Classes\SettingsManager;
 use Backend,Config, Flash, Request;
 use LucasPalomba\KrakenOptimizer\Classes\Kraken;
 use LucasPalomba\KrakenOptimizer\Models\Settings;
+use October\Rain\Database\Attach\File;
 
 class Plugin extends PluginBase
 {   
@@ -56,6 +57,44 @@ class Plugin extends PluginBase
                 
                 });
             });
+
+            File::extend(function ($model) {
+                $model->bindEvent('model.beforeCreate', function () use ($model) {
+                    if($model->isImage()){
+                         /**
+                         * Prepare
+                         */
+                        $filePath = $model->getPath();
+                        $api_key = Settings::get('kraken_site_key', false);
+                        $secret_key = Settings::get('kraken_secret_key', false);
+                        
+                        $kraken = new Kraken($api_key,$secret_key);
+                        
+                        $params = array(
+                            "url" => $filePath,
+                            "wait" => true,
+                            "lossy" => true
+                        );
+                        $data = $kraken->url($params);
+                        $dir = storage_path('app');
+                        if ($data["success"]) {
+                            is_dir($dir) || @mkdir($dir) || die("Can't Create folder");
+                            if(!@copy($data['kraked_url'], $model->getLocalPath())){
+                                $errors= error_get_last();
+                                dd($errors);
+                            }
+                            clearstatcache();
+                            $model->file_size = filesize($model->getLocalPath());
+                            Flash::success(e(trans('lucaspalomba.krakenoptimizer::lang.success.optimization.alert_success')));
+                        } else {
+                            Flash::error(e(trans('lucaspalomba.krakenoptimizer::lang.errors.optimization.alert_errors')));
+                        }
+
+                        
+                    }
+                });
+            });
+            
         }
         
     }
