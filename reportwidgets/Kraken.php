@@ -42,8 +42,9 @@ class Kraken extends ReportWidgetBase
             $data = $kraken->status();
             if($data['success']){
 
-                $this->vars['available']  = round(($data['quota_total']-$data['quota_used'])*100/$data['quota_total']);
+                $this->vars['available']  = round(($data['quota_total']-$data['quota_used'])/1000000);
                 $this->vars['used']  = round($data['quota_used']*100/$data['quota_total']);
+                $this->vars['used_mo']  = round($data['quota_used']/1000000);
             }
                 
         }
